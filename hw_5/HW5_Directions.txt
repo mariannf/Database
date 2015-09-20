@@ -1,0 +1,10 @@
+Homework #5
+Create a table that demonstrates the required constraint (i.e., not null). Create several INSERT statements that test this constraint (i.e., at least one record passes and one fails).
+Create a table that includes both a field level check and a table level check. Create several INSERT statements that test these constraints (i.e., at least one record passes and one fails). Note that there are two separate constraints here…so make sure you have enough INSERTS to pass and fail all the constraints.
+
+Create a table that defines a primary key constraint. Create several INSERT statements that test this constraint (i.e., at least one record passes and one fails).
+
+Create a table that defines a unique constraint. Create several INSERT statements that test this constraint (i.e., at least one record passes and one fails).
+Create 3 tables: Students, Classes, and ClassRegistration. Create a primary key in both the Students and Classes tables (as well as other meaningful columns). In the ClassRegistration table, use the primary keys from each of the other tables to indicate which students take which classes. Define these as foreign keys to the other tables. Specify the foreign constraints in such a way that, if a student is deleted from the Students table, all corresponding records in the ClassRegistration table are deleted and, deleting a class from the Classes table is not allowed if that class is referenced in the ClassRegistration table. Create at least 3 records in each table. Test that your constraints are working properly by trying to delete a student and then also trying to delete a class.
+
+For this assignment, put the answer to each problem in one SQL file.  Please use comments in your SQL code to indicate the answer to each problem (i.e., puat a /*1*/ just before the answer to question1, a /*2*/ just before the answer to question 2, etc.Call the file homework5.sql,

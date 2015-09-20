@@ -1,0 +1,49 @@
+
+/**
+  * Mariann Szabo-Freund
+  * ITCS-3160
+  * Homework 7
+  * 2/6/2014
+ **/
+
+USE AutoDealer
+GO
+
+/* 1 */
+SELECT COUNT (Color)
+FROM RegisteredCars
+WHERE Color= 'Red' and PlateNumber LIKE 'ZX%'
+GO
+
+/* 2 */
+SELECT * 
+FROM RegisteredCars
+WHERE Color= 'Red' and PlateNumber LIKE 'ZX%'
+GO
+
+/* 3 */
+SELECT *
+FROM RegisteredCars
+WHERE Year<2009 and VehicleID LIKE '______y%'
+GO
+
+/* 4 */
+SELECT *
+FROM RegisteredCars
+WHERE Year<2009 and VehicleID LIKE '______y%'
+ORDER BY Manufacturer, Model
+GO
+
+/* 5 */
+SELECT Distinct Color
+FROM RegisteredCars
+WHERE Manufacturer = 'Chevrolet' and Model='Camaro' and Year= '1997'
+GO
+
+/* 6 */
+SELECT  Manufacturer, Model, CONVERT(decimal(12,2), AVG(Price))AS 'Average Price' 
+FROM RegisteredCars
+WHERE Year='2000'
+GROUP BY  Model, Manufacturer
+GO
+

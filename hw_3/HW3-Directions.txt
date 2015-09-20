@@ -1,0 +1,9 @@
+Homework 3 - Create 5 Databases
+Create 5 separate databases. Each database should relate to some topic of your choice (e.g., vehicles, restaurants, hobbies, whatever).
+For EACH database, create at least 3 tables. Each table should be related to the topic for that database.
+For EACH table, define at least 3 attributes. Overall, you must use each of the following data types at least once (varchar, char, int, date, float, text)
+For EACH table, insert at least 3 rows of data.
+Do all of the above in ONE query file (call it homework2.sql) and submit the file on Moodle.
+NOTE: Although you can use the script generation capabilities of SQL
+Server to help you learn syntax, I want the scripts you turn in to be
+hand-written. I don’t want any extraneous commands included.

@@ -1,0 +1,216 @@
+/**
+  * Mariann Szabo-Freund
+  * HW #10
+  * 4/3/2014
+  *
+  **/
+
+CREATE DATABASE Airline
+GO
+USE Airline
+GO
+
+
+CREATE TABLE Airport(
+AirportCode			varchar(6)		NOT NULL,
+City				varchar(10)		NOT NULL,
+State				varchar(2)		NOT NULL,
+Name				varchar(25)		NOT NULL,
+
+CONSTRAINT PK_AIRLINE PRIMARY KEY (AirportCode)
+)
+
+CREATE TABLE Airplane_Type(
+TypeName		varchar(25)		NOT NULL,
+Company			varchar(25)		NOT NULL,
+MaxSeat			int				NOT NULL,
+
+CONSTRAINT PK_Airplane_Type PRIMARY KEY (TypeName)
+)
+
+CREATE TABLE Airplane (
+Airplane_ID		varchar(20)		NOT NULL,
+TotalNoOfSeats	int				NOT NULL,
+
+CONSTRAINT PK_Airplane PRIMARY KEY (Airplane_ID)
+)
+
+CREATE TABLE Flight(
+Number		char(6)				NOT NULL,
+Airline		varchar(25)			NOT NULL,
+Weekdays	varchar	(25)
+		
+CONSTRAINT PK_Flight	PRIMARY KEY (Number)
+)
+
+CREATE TABLE FlightLeg(
+LegNo			char(6)		NOT NULL,
+FNo				char(6)		NOT NULL
+
+CONSTRAINT PK_FlightLeg PRIMARY KEY (LegNo, FNo),
+
+CONSTRAINT UK_FlightLeg UNIQUE NONCLUSTERED (LegNo),
+
+CONSTRAINT FK_Flight FOREIGN KEY(FNo) REFERENCES Flight (Number)
+	ON UPDATE CASCADE ON DELETE CASCADE
+)
+
+CREATE TABLE Fare(
+Restrictions		varchar(25)		NOT NULL,
+Amount				float			NOT NULL,
+Code				varchar(25)		NOT NULL,
+FlightNum			char(6)			NOT NULL,
+
+CONSTRAINT PK_Fare PRIMARY KEY (Code, FlightNum),
+CONSTRAINT UK_Fare UNIQUE NONCLUSTERED (Code),
+CONSTRAINT FK_Fare FOREIGN KEY (FlightNum) References Flight(Number)
+	ON UPDATE CASCADE ON DELETE CASCADE
+)
+
+CREATE TABLE LegInstance(
+NoOfAvailSeats		int				NOT NULL,
+DateI				date			NOT NULL,			
+LegNo				char(6)			NOT NULL,
+FNo					char(6)			NOT NULL
+
+CONSTRAINT PK_LegInstance PRIMARY KEY (DateI, LegNo, FNo),
+CONSTRAINT UK_LegInst Unique nonclustered(DateI),
+
+CONSTRAINT FK_FLeg FOREIGN KEY(LegNo,FNo) REFERENCES FlightLeg(LegNo,FNo)
+	ON UPDATE CASCADE ON DELETE NO ACTION
+)
+
+CREATE TABLE Seat(
+SeatNo			varchar(3)			NOT NULL,
+DateL			date				NOT NULL,
+LegNo			char(6)				NOT NULL,
+FN				char(6)				NOT NULL,
+
+CONSTRAINT PK_Seat PRIMARY KEY (SeatNo, DateL, LegNo, FN),
+CONSTRAINT UK_Seat Unique nonclustered (SeatNo),
+CONSTRAINT FK_Seat FOREIGN KEY(DateL,LegNo,FN) REFERENCES LegInstance(DateI,LegNo,FNo)
+	ON UPDATE CASCADE ON DELETE CASCADE
+)
+
+USE Airline
+GO
+
+CREATE TABLE Type(
+AirplaneID			varchar(20)		NOT NULL,
+TypeName			varchar(25)		NOT NULL,
+
+CONSTRAINT PK_Type PRIMARY KEY (AirplaneID),
+CONSTRAINT FK_Type FOREIGN KEY (AirplaneID) REFERENCES Airplane (Airplane_ID)
+	ON UPDATE CASCADE ON DELETE NO ACTION,
+CONSTRAINT FK_TypeAir FOREIGN KEY (TypeName) REFERENCES Airplane_Type(TypeName)
+	ON UPDATE CASCADE ON DELETE NO ACTION  
+)
+
+USE Airline
+GO
+CREATE TABLE Assigned(
+AirplaneID		varchar(20),
+AirDate			date				NOT NULL,
+
+CONSTRAINT PK_Assigned PRIMARY KEY (AirDate),
+CONSTRAINT FK_Assigned FOREIGN KEY (AirplaneID) REFERENCES Airplane (Airplane_ID)
+	ON UPDATE CASCADE ON DELETE NO ACTION,
+CONSTRAINT FK_DateI FOREIGN KEY(AirDate) REFERENCES LegInstance(DateI)
+	ON UPDATE CASCADE ON DELETE NO ACTION
+)
+
+CREATE TABLE Reservation(
+DateR			date,
+SeatNo			varchar(3)		NOT NULL,
+CustomerName	varchar(25)		NOT NULL,
+CPhone			varchar(25)	,
+
+CONSTRAINT PK_Reservation PRIMARY KEY (SeatNo),
+CONSTRAINT FK_SeatN FOREIGN KEY (SeatNo) REFERENCES Seat(SeatNo)
+	ON UPDATE CASCADE ON DELETE NO ACTION,  
+
+CONSTRAINT FK_DateR FOREIGN KEY(DateR) REFERENCES LegInstance(DateI)
+	ON UPDATE  NO ACTION
+)
+
+CREATE TABLE Departs(
+AirportCode			varchar(6)		NOT NULL,
+DepTime				time,
+DateD				date			NOT NULL,
+
+CONSTRAINT PK_DateD PRIMARY KEY (DateD),
+CONSTRAINT FK_Dated FOREIGN KEY (DateD) REFERENCES LegInstance (DateI)
+	ON UPDATE CASCADE ON DELETE NO ACTION,
+CONSTRAINT FK_AirportCode FOREIGN KEY (AirportCode) REFERENCES Airport (AirportCode)
+	ON UPDATE CASCADE ON DELETE NO ACTION,
+)
+
+CREATE TABLE Arrives(
+AirportCode			varchar(6)		NOT NULL,
+ArrTime				time,
+DateA				date			NOT NULL,
+
+CONSTRAINT PK_DateA PRIMARY KEY (DateA,AirportCode),
+CONSTRAINT FK_DateA FOREIGN KEY (DateA) REFERENCES LegInstance (DateI)
+	ON UPDATE CASCADE ON DELETE NO ACTION,
+CONSTRAINT FK_AirportCodeA FOREIGN KEY (AirportCode) REFERENCES Airport (AirportCode)
+	ON UPDATE CASCADE ON DELETE NO ACTION,
+)
+	
+CREATE TABLE CanLand(
+AirportCode			varchar(6)		NOT NULL,
+TypeName			varchar(25)		NOT NULL,
+
+CONSTRAINT PK_CanLand PRIMARY KEY (AirportCode,TypeName),
+CONSTRAINT FK_TypeName FOREIGN KEY (TypeName) REFERENCES Airplane_Type (TypeName)
+	ON UPDATE CASCADE ON DELETE NO ACTION,
+CONSTRAINT FK_AirportCodeC FOREIGN KEY (AirportCode) REFERENCES Airport (AirportCode)
+	ON UPDATE CASCADE ON DELETE NO ACTION,
+
+)
+
+CREATE TABLE DepartureAirport(
+AirportCode			varchar(6),
+SceduledDepTime		time,
+LegNo				char(6)			NOT NULL,
+
+CONSTRAINT PK_LegNo PRIMARY KEY (LegNo),
+CONSTRAINT FK_LegNo FOREIGN KEY (LegNo) REFERENCES FlightLeg(LegNo)
+	ON UPDATE CASCADE ON DELETE NO ACTION,
+CONSTRAINT FK_AirportCodeDep FOREIGN KEY (AirportCode) REFERENCES Airport (AirportCode)
+	ON UPDATE CASCADE ON DELETE NO ACTION,
+)
+
+CREATE TABLE ArrivalAirport(
+AirportCode			varchar(6),
+SceduledArrTime		time,
+LegNo				char(6)			NOT NULL,
+
+CONSTRAINT PK_LegNoArr PRIMARY KEY (LegNo,AirportCode),
+CONSTRAINT FK_LegNoArr FOREIGN KEY (LegNo) REFERENCES FlightLeg(LegNo)
+	ON UPDATE  NO ACTION,
+CONSTRAINT FK_AirportCodeArr FOREIGN KEY (AirportCode) REFERENCES Airport (AirportCode)
+	ON UPDATE CASCADE ON DELETE NO ACTION,
+)
+
+CREATE TABLE Legs(
+Num					char(6),					
+LegNo				char(6)			NOT NULL,
+
+CONSTRAINT PK_Leg PRIMARY KEY (LegNo),
+CONSTRAINT FK_Leg FOREIGN KEY (LegNo) REFERENCES FlightLeg(LegNo)
+	ON UPDATE CASCADE ON DELETE NO ACTION,
+CONSTRAINT FK_Num FOREIGN KEY (Num) REFERENCES Flight (Number)
+	ON UPDATE NO ACTION,
+)
+
+CREATE TABLE Fares(
+Num					char(6),					
+Code				varchar(25)			NOT NULL,
+
+CONSTRAINT PK_Fares PRIMARY KEY (Code),
+CONSTRAINT FK_Code FOREIGN KEY (Code) REFERENCES Fare(Code)
+	ON UPDATE CASCADE ON DELETE NO ACTION,
+CONSTRAINT FK_NumF FOREIGN KEY (Num) REFERENCES Flight (Number)
+	ON UPDATE NO ACTION,
+)

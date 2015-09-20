@@ -1,0 +1,434 @@
+/**
+  * Mariann Szabo-Freund
+  * ITCS-3160
+  * Homework 3
+  *1/30/2014
+ **/
+
+
+/* HOMEWORK #3 TEMPLATE */
+
+/*
+  Use this template to format your submission for homework #3.  Be sure
+  to put your SQL statements in the areas indicated below.
+  See the homework assignment for specific directions on what is needed.
+  Please follow the format specified.  This is necessary to make grading
+  easier and more efficient.  Failure to follow this template will result
+  in a deduction to your grade for this assignment.
+*/
+
+/********  SECTION FOR DATABASE # 1  ******************************************/
+/* Put the SQL code to create Database #1 just after this comment */
+
+CREATE DATABASE Prescription
+GO
+
+/* Put the SQL code to create the 1st table for Database #1 just after this comment */
+
+USE Prescription
+GO
+CREATE TABLE Doctor(
+
+DoctorID	int				 NOT NULL,
+FirstName	varchar(25),
+LastName	varchar(25),
+LicenseNum	int
+)
+GO
+
+/* Put the SQL code to insert data into the the 1st table for Database #1 just after this comment */
+
+INSERT INTO Doctor(DoctorID, FirstName, LastName, LicenseNum)
+VALUES (12091209, 'Daniel', 'Solow', 1234)
+GO
+
+INSERT INTO Doctor(DoctorID, FirstName, LastName, LicenseNum)
+VALUES (12121219, 'Charles', 'Dickens', 1678)
+GO
+
+INSERT INTO Doctor(DoctorID, FirstName, LastName, LicenseNum)
+VALUES (12265219, 'Stephen', 'King', 1008)
+GO
+
+/* Put the SQL code to create the 2nd table for Database #1 just after this comment */
+
+CREATE TABLE Patient(
+PatientID		int				NOT NULL,
+FirstName		varchar(25),
+LastName		varchar(25),
+HealthHistory	text,
+DateOfBirth		date,
+DoctorID		int
+)
+GO
+
+/* Put the SQL code to insert data into the the 2nd table for Database #1 just after this comment */
+
+INSERT INTO Patient(PatientID, FirstName, LastName, HealthHistory, DateOfBirth, DoctorID)
+VALUES (891, 'Janos', 'Bolyai', 'no serious health history', '2-1-75', 12265219)
+GO
+
+INSERT INTO Patient(PatientID, FirstName, LastName, HealthHistory, DateOfBirth, DoctorID)
+VALUES (100, 'Emile', 'Borel', 'Asma', '4-6-56', 12121219)
+GO
+
+INSERT INTO Patient(PatientID, FirstName, LastName, HealthHistory, DateOfBirth, DoctorID)
+VALUES (401, 'Pierre', 'Laplace', 'no serious health history', '12-6-56', 12091209)
+GO
+
+/* Put the SQL code to create the 3rd table for Database #1 just after this comment */
+
+CREATE TABLE Drug(
+
+DrugID			int				NOT NULL,
+DrugName		varchar(25),
+PatientID		int				NOT NULL,
+PatientWeight	float,
+QuantityPerBox	int,
+SideEffect		text
+)
+GO
+
+/* Put the SQL code to insert data into the the 3rd table for Database #1 just after this comment */
+INSERT INTO Drug(DrugID, DrugName, PatientID, PatientWeight, QuantityPerBox, SideEffect)
+VALUES (001, 'Axert', 100, 120, 20, 'difficulty breathing, swelling of face, lips')
+GO
+
+INSERT INTO Drug(DrugID, DrugName, PatientID, PatientWeight, QuantityPerBox, SideEffect)
+VALUES (002, 'Mesnex', 401, 156.34, 3, 'closing the throat')
+GO
+
+INSERT INTO Drug(DrugID, DrugName, PatientID, PatientWeight, QuantityPerBox, SideEffect)
+VALUES (003, 'Dacogen', 891, 190.02, 12, 'fever, chills')
+GO
+
+
+/********  SECTION FOR DATABASE # 2  ******************************************/
+/* Put the SQL code to create Database #2 just after this comment */
+
+CREATE DATABASE Cheese
+GO
+
+/* Put the SQL code to create the 1st table for Database #2 just after this comment */
+
+USE Cheese
+GO
+
+CREATE TABLE Country(
+CountryID		int				NOT NULL,
+CountryName		varchar(25),
+Continent		varchar(25)
+)
+GO
+
+/* Put the SQL code to insert data into the the 1st table for Database #2 just after this comment */
+
+INSERT INTO Country(CountryID, CountryName, Continent)
+VALUES (003, 'France', 'Europe')
+GO  
+
+INSERT INTO Country(CountryID, CountryName, Continent)
+VALUES (002, 'Greece', 'Europe')
+GO 
+
+INSERT INTO Country(CountryID, CountryName, Continent)
+VALUES (001, 'USA', 'America')
+GO 
+
+/* Put the SQL code to create the 2nd table for Database #2 just after this comment */
+
+CREATE TABLE Cheese(
+CheeseID			char(5)			NOT NULL,
+CheeseName			varchar(25),
+CountryID			int,
+MoistureContent		varchar(25),
+CheeseDescription	text
+)
+GO
+
+/* Put the SQL code to insert data into the the 2nd table for Database #2 just after this comment */
+
+INSERT INTO Cheese(CheeseID, CheeseName, CountryID, MoistureContent, CheeseDescription)
+VALUES ('000V1', 'Brie de Meaux', 003, 'creamy and soft', ' made of cows milk. It has a soft, 
+delicate white rind. The interior of the cheese is straw-yellow, cremay and soft.') 
+GO
+
+INSERT INTO Cheese(CheeseID, CheeseName, CountryID, MoistureContent, CheeseDescription)
+VALUES ('00VB2', 'Feta', 002, 'firm and soft', ' A blend of sheep and goat milk. 
+Feta is a Greek soft white-brined cheese with small or no holes, a compact touch, few cuts, and no skin') 
+GO
+
+INSERT INTO Cheese(CheeseID, CheeseName, CountryID, MoistureContent, CheeseDescription)
+VALUES ('00VA3', 'Bergenost', 001, 'semi-soft', ' Bergenost is a semi-soft cheese with a mild,
+ smooth flavor and a subtle hint of sourness') 
+GO
+
+/* Put the SQL code to create the 3rd table for Database #2 just after this comment */
+
+CREATE TABLE CheeseType(
+TypeID		char(3)			NOT NUll,
+MilkType	varchar(25),
+CheeseID	char(5)
+)
+GO
+
+/* Put the SQL code to insert data into the the 3rd table for Database #2 just after this comment */
+
+INSERT INTO CheeseType(TypeID, MilkType, CheeseID)
+VALUES ('AA', 'Cow', '000V1')
+GO
+
+INSERT INTO CheeseType(TypeID, MilkType, CheeseID)
+VALUES ('A', 'Goat', '00VB2')
+GO
+
+INSERT INTO CheeseType(TypeID, MilkType, CheeseID)
+VALUES ('BB', 'UnKnown', '00VA3')
+GO
+
+
+/********  SECTION FOR DATABASE # 3  ******************************************/
+/* Put the SQL code to create Database #3 just after this comment */
+
+CREATE DATABASE Airport
+GO
+
+/* Put the SQL code to create the 1st table for Database #3 just after this comment */
+
+USE Airport
+GO
+CREATE TABLE AirPlane(
+AirPlaneID		varchar(10)		NOT NULL,	
+Make			varchar(25),
+Model			varchar(25)
+)
+GO
+
+
+/* Put the SQL code to insert data into the the 1st table for Database #3 just after this comment */
+
+INSERT INTO AirPlane(AirPlaneID, Make, Model)
+VALUES (10, 'Airbus', 'A320')
+GO
+
+INSERT INTO AirPlane(AirPlaneID, Make, Model)
+VALUES (11, 'Boeing', 'B747')
+GO
+
+INSERT INTO AirPlane(AirPlaneID, Make, Model)
+VALUES (13, 'Embraer', 'E2')
+GO
+
+/* Put the SQL code to create the 2nd table for Database #3 just after this comment */
+
+
+CREATE TABLE City(
+CityID		char(5)			NOT NULL,
+CityName	varchar(25),
+AirPlaneID	varchar(10)
+)
+GO
+
+
+/* Put the SQL code to insert data into the the 2nd table for Database #3 just after this comment */
+
+INSERT INTO City(CityID, CityName, AirPlaneID)
+VALUES (001, 'Budapest', 10)
+GO
+
+INSERT INTO City(CityID, CityName, AirPlaneID)
+VALUES (011, 'Lannion', 13)
+GO
+
+INSERT INTO City(CityID, CityName, AirPlaneID)
+VALUES (001, 'Berlin', 11)
+GO
+
+/* Put the SQL code to create the 3rd table for Database #3 just after this comment */
+
+CREATE TABLE Airport(
+AirportID		char(3),
+AirportName		varchar(50),
+CityID			varchar(5)
+)
+GO
+
+/* Put the SQL code to insert data into the the 3rd table for Database #3 just after this comment */
+
+INSERT INTO Airport(AirportID, AirportName, CityID)
+VALUES ('BUD', 'Liszt Ferenc Airport', 10)
+GO
+
+INSERT INTO Airport(AirportID, AirportName, CityID)
+VALUES ('BER', 'Berlin BrandenBurg Airport', 11)
+GO
+
+INSERT INTO Airport(AirportID, AirportName, CityID)
+VALUES ('LAI', 'Aeroport de Lannion', 13)
+GO
+
+
+/********  SECTION FOR DATABASE # 4  ******************************************/
+/* Put the SQL code to create Database #4 just after this comment */
+
+CREATE DATABASE Princes
+GO
+
+/* Put the SQL code to create the 1st table for Database #4 just after this comment */
+
+USE Princes
+GO
+
+CREATE TABLE Kingdom(
+KingdomID		varchar(25)		NOT NULL,
+KingdomName		varchar(25),
+MagicLand		varchar(25)
+)
+GO
+
+/* Put the SQL code to insert data into the the 1st table for Database #4 just after this comment */
+
+
+INSERT INTO Kingdom(KingdomID, KingdomName, MagicLand)
+VALUES ('MLOO1', 'Far away','Fantasy')
+GO
+
+INSERT INTO Kingdom(KingdomID, KingdomName, MagicLand)
+VALUES ('MLOO2', 'Dragon Mountain', 'Middle Earth')
+GO
+
+INSERT INTO Kingdom(KingdomID, KingdomName, MagicLand)
+VALUES ('MLOO3', 'Gondor', 'Mordor')
+GO
+
+/* Put the SQL code to create the 2nd table for Database #4 just after this comment */
+
+
+CREATE TABLE Princess(
+PrincessID		varchar(25)		NOT NULL,
+FirstName		varchar(25),
+KingdomID		varchar(25),
+PrincessWeight	float,
+)
+GO
+
+/* Put the SQL code to insert data into the the 2nd table for Database #4 just after this comment */
+
+INSERT INTO Princess(PrincessID, FirstName, KingdomID,PrincessWeight)
+VALUES ('p001',	'Cindarella', 'MLOO3', '119.11')																											
+GO
+
+INSERT INTO Princess(PrincessID, FirstName, KingdomID,PrincessWeight)
+VALUES ('p002',	'Roponza', 'MLOO2', '230.01')																											
+GO
+
+INSERT INTO Princess(PrincessID, FirstName, KingdomID,PrincessWeight)
+VALUES ('p001',	'Ariel', 'MLOO1', '120.04')																											
+GO
+
+/* Put the SQL code to create the 3rd table for Database #4 just after this comment */
+
+CREATE TABLE Prince(
+PrinceID		varchar(25)		NOT NULL,
+FirstName		varchar(25),
+PhoneNum		varchar(25),
+)
+GO
+
+/* Put the SQL code to insert data into the the 3rd table for Database #4 just after this comment */
+
+INSERT INTO Prince(PrinceID, FirstName, PhoneNum)
+VALUES ('Pr005', 'Ken', '704-792-6466')
+GO
+
+INSERT INTO Prince(PrinceID, FirstName, PhoneNum)
+VALUES ('Pr006', 'Charles', '908-374-6466')
+GO
+
+INSERT INTO Prince(PrinceID, FirstName, PhoneNum)
+VALUES ('Pr007', 'Loui', '704-009-6466')
+GO
+
+
+/********  SECTION FOR DATABASE # 5  ******************************************/
+/* Put the SQL code to create Database #5 just after this comment */
+
+CREATE DATABASE Mathematicians
+GO
+
+/* Put the SQL code to create the 1st table for Database #5 just after this comment */
+
+
+USE Mathematicians
+GO
+
+CREATE TABLE Fields(
+FieldID			varchar(25)			NOT NULL,
+FieldName		varchar(25),
+Comment			text
+)
+GO
+
+/* Put the SQL code to insert data into the the 1st table for Database #5 just after this comment */
+
+INSERT INTO Fields(FieldID, FieldName, Comment)
+VALUES ('C001', 'Set theory','Set theory is the branch of mathematical logic that studies sets, which are collections of objects')
+GO
+
+INSERT INTO Fields(FieldID, FieldName, Comment)
+VALUES ('C002', 'Combinatorics','Combinatorics is a branch of mathematics concerning the study of finite or countable discrete structures')
+GO
+
+INSERT INTO Fields(FieldID, FieldName, Comment)
+VALUES ('C003', 'Geometry','Geometry  is a branch of mathematics concerned with questions of shape,
+		 size, relative position of figures, and the properties of space')
+GO
+
+/* Put the SQL code to create the 2nd table for Database #5 just after this comment */
+
+CREATE TABLE Mathematician(
+MathID		varchar(25)		NOT NULL,
+FirstName	varchar(25),
+LastName	varchar(25),
+FieldID		varchar(25),
+)
+GO
+
+/* Put the SQL code to insert data into the the 2nd table for Database #5 just after this comment */
+
+
+INSERT INTO Mathematician(MathID, FirstName, LastName, FieldID)
+VALUES ('M001', 'Gauss', 'Jordan', 'C002')
+GO
+
+INSERT INTO Mathematician(MathID, FirstName, LastName, FieldID)
+VALUES ('M002', 'Pierre', 'Poisson', 'C003')
+GO
+
+INSERT INTO Mathematician(MathID, FirstName, LastName, FieldID)
+VALUES ('M003', 'Euclid', 'Alexander', 'C001')
+GO
+
+/* Put the SQL code to create the 3rd table for Database #5 just after this comment */
+
+CREATE TABLE Theorem(
+TheoremID		varchar(25)		NOT NULL,
+TheoremName		varchar(25),
+MathID			varchar(25)
+)
+GO
+
+/* Put the SQL code to insert data into the the 3rd table for Database #5 just after this comment */
+
+INSERT INTO Theorem(TheoremID, TheoremName, MathID)
+VALUES( 'T001',' Euclidean', 'M003')
+GO
+
+INSERT INTO Theorem(TheoremID, TheoremName, MathID)
+VALUES( 'T002',' Gaussean', 'M001')
+GO
+
+INSERT INTO Theorem(TheoremID, TheoremName, MathID)
+VALUES( 'T003',' The fish theorem', 'M002')
+GO
+

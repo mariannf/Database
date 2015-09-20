@@ -1,0 +1,170 @@
+/**
+  * Mariann Szabo-Freund
+  * ITCS-3160
+  * Homework 5
+  * 2/5/2014
+ **/
+
+
+CREATE DATABASE Hotel
+GO
+
+USE Hotel
+GO
+
+/* quetsion: 1 */
+CREATE TABLE Customer(
+CustomerID	int				NOT NULL,
+FirstName	varchar(25)		NOT NULL,
+PhoneNumber	varchar(15),
+)
+GO
+
+/* The following input statement will pass */
+INSERT INTO Customer(CustomerID, FirstName,PhoneNumber)
+VALUES('12786', 'Jerri', '7056152')
+GO
+
+/* The following input statement will fail */
+INSERT INTO Customer(CustomerID, FirstName,PhoneNumber)
+VALUES(NULL, 'Terry', '70560052')
+GO
+
+/* Question: 2  */
+CREATE TABLE Reservation(
+LastName		varchar(25)		NOT NULL,
+FirstName		varchar(25)		NOT NULL,
+PaymentType		varchar(25)		NOT NULL,
+NumberOfNights	int				NOT NULL,
+
+CONSTRAINT ck_NuberOfNigths CHECK(NumberOfNights>4),
+CONSTRAINT ck_CardType_And_Nights CHECK((PaymentType='VISA') AND (NumberOfNights>6))
+)
+
+
+/* The following record fails the 1st constraint */
+INSERT INTO Reservation(LastName, FirstName,PaymentType, NumberOfNights)
+VALUES('Mary', 'Lee', 'Discovery', 2)
+GO
+
+/* The following record passes the first constaraint */
+INSERT INTO Reservation(LastName, FirstName,PaymentType, NumberOfNights)
+VALUES('Kelly', 'Freeman', 'Discover', 5)
+GO
+
+
+/* The following record fails the 2nd constarint */
+INSERT INTO Reservation(LastName, FirstName, PaymentType, NumberOfNights)
+VALUES('Lisa', 'Fox', 'Mastercard', 5)
+GO
+
+/* The following record fails the 2nd constarint */
+INSERT INTO Reservation(LastName, FirstName, PaymentType, NumberOfNights)
+VALUES('Ralph', 'Lee', 'Visa', 5)
+GO
+
+/* The following record fails the 2nd constarint */
+INSERT INTO Reservation(LastName, FirstName, PaymentType, NumberOfNights)
+VALUES('Richard', 'Ragavi', 'Discover', 9)
+GO
+
+/* The following record passes the 2nd constarint */
+INSERT INTO Reservation(LastName, FirstName, PaymentType, NumberOfNights)
+VALUES('Jeremy', 'Trash', 'Visa', 9)
+GO
+
+USE Hotel
+GO
+
+/* Question: 3 */
+CREATE TABLE Incidentals(
+IncidentalID		varchar(15)		NOT NULL,
+IncidentalName		varchar(25),
+CustomerID			int
+CONSTRAINT PK_Incidents PRIMARY KEY CLUSTERED (IncidentalID ASC)
+)
+GO
+
+/* This record will pass */
+INSERT INTO Incidentals(IncidentalID, IncidentalName,CustomerID)
+VALUES('I002', 'Minibar',12786)
+GO
+/*This record will fail */
+INSERT INTO Incidentals(IncidentalID, IncidentalName,CustomerID)
+VALUES('I002', 'Movies',12706)
+GO
+
+
+
+/* Question: 4 */
+CREATE TABLE HistoryFile(
+FileNumber		int		NOT NULL,
+CustomerID		int,
+RoomNumber		int		NOT NULL,
+TotalAmnt		float,
+CONSTRAINT UK_HistoryFile UNIQUE NONCLUSTERED ( RoomNumber ASC)
+)
+GO
+
+
+/* This record will pass */
+INSERT INTO HistoryFile (FileNumber, CustomerID, RoomNumber,TotalAmnt)
+VALUES (1111, 001, 128, 123.33)
+GO
+
+/*This record will fail */
+INSERT INTO HistoryFile (FileNumber, CustomerID, RoomNumber,TotalAmnt)
+VALUES (1111, 001, 128, 213.09)
+GO
+
+
+/*Question: 5 */
+
+USE Hotel
+
+CREATE TABLE Students(
+StudentID		int				NOT NULL,
+FirstName		varchar(25),
+LastName		varchar(25)
+CONSTRAINT PK_Students PRIMARY KEY CLUSTERED (StudentID ASC)
+)
+GO
+
+INSERT INTO Students(StudentID, FirstName, LastName)
+VALUES (8001, 'Gabor', 'Taylor')
+GO
+
+INSERT INTO Students(StudentID, FirstName, LastName)
+VALUES (8002, 'John', 'Lewinsky')
+GO
+
+INSERT INTO Students(StudentID, FirstName, LastName)
+VALUES (8003, 'Kelly', 'Hudson')
+GO
+
+INSERT INTO Students(StudentID, FirstName, LastName)
+VALUES (8004, 'Ana', 'Fox')
+GO
+
+
+CREATE TABLE Classes(
+ClassesID		varchar(15)		NOT NULL,
+ClassesName		varchar(25)
+CONSTRAINT PK_Classes PRIMARY KEY CLUSTERED (ClassesID ASC)
+)
+GO
+
+
+CREATE TABLE ClassRegistration(
+StudentID		int,
+ClassesID		varchar(15)
+
+CONSTRAINT PK_ClassRegistration PRIMARY KEY CLUSTERED 
+(StudentID ASC, ClassesID ASC),
+
+CONSTRAINT FK_ClassRegistartion_Student FOREIGN KEY (StudentID)
+REFERENCES Students (StudentID) ON DELETE CASCADE,
+
+CONSTRAINT FK_ClassRegistartion_Classes FOREIGN KEY (ClassesID)
+REFERENCES Classes (ClassesID)	ON DELETE NO ACTION	)
+GO

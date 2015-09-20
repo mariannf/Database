@@ -1,0 +1,18 @@
+Homework #12
+Use the 7-step Process outlined in the class handout to implement the following methods in the DatabaseController class:
+
+getBankByRoutingNumber(String routingNum)- Banks table (5 points)
+getMechanicByID(Stringid) – Mechanics table (5 points)
+getCarByVehicleID(String vehicleID) – Cars table (5 points)
+getServiceByServiceID(Stringid) – Services table (5 points)
+
+
+BONUS METHOD (worth an additional 5 points):
+
+getAllSalesTeams() - SalesTeam table 
+This method should get a list of ALL sales teams in the SalesTeams table. This table just contains IDs that reference the SalesPerson table (i.e., one ID for the Lead Sales Person and one for the Trainee Sales Person).
+This method will require a data object called SalesTeam that consists of two SalesPersons. Each SalesPerson 
+There are a variety of approaches to solve this problem, including re-using the getSalesPersonByID(String id) method you implemented in the class exercise.
+For each of these methods, you will need to follow steps 2-7 of the process (step 1 is the framework, which you should already have from me). This means you will be creating stored procedures in the database, adding constants to the DatabaseConstants class, creating data objects in the database.dataobjects class, adding code to create those objects from a ResultSet in the ObjectBuilder class, adding the methods shown above to the DatbaseController class, and, finally, adding test code to the initialize() method of the StoredProcedureTester class!
+
+To make this assignment easy for our graders (and me) to grade, I want you to copy and paste the code you write and the stored procedures you create into the Word template provided on Moodle
